@@ -197,13 +197,13 @@ func theBestOfTheBestSliceErrorMessagesCreator(errorsCh <-chan error, wg *sync.W
 	localWg := sync.WaitGroup{}
 	for err := range errorsCh {
 		localWg.Add(1)
-		go func() {
+		go func(err error) {
 			result = append(result, err)
 			if debugMode {
 				fmt.Println("в срез ошибок НЕ выполненных заданий добавлена ошибка: ", err)
 			}
 			localWg.Done()
-		}()
+		}(err)
 
 	}
 	localWg.Wait()
